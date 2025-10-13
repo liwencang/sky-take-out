@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.aliyun.oss.common.utils.HttpHeaders;
 import com.sky.constant.JwtClaimsConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +28,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/employee")
 @Slf4j
-@Api("员工管理类")
+@Api(tags = "员工管理类")
 public class EmployeeController {
 
     @Autowired
@@ -42,6 +42,7 @@ public class EmployeeController {
      * @param employeeLoginDTO
      * @return
      */
+    @ApiOperation("员工登录")
     @PostMapping("/login")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("员工登录：{}", employeeLoginDTO);
@@ -70,6 +71,7 @@ public class EmployeeController {
      *
      * @return
      */
+    @ApiOperation("注销登录")
     @PostMapping("/logout")
     public Result<String> logout() {
         return Result.success();
@@ -88,4 +90,23 @@ public class EmployeeController {
         PageResult page = employeeService.page(employeePageQueryDTO);
         return Result.success(page);
     }
+    @ApiOperation("启用、禁用员工账号")
+    @PostMapping("/status/{status}")
+    public Result updateEmployeeStatus(Long id,@PathVariable Integer status){
+        employeeService.updateEmployeeStatus(id,status);
+        return Result.success();
+    }
+    @ApiOperation("根据id查询员工")
+    @GetMapping("/{id}")
+    public Result<Employee> getEmployeeById(@PathVariable Integer id){
+        Employee employee = employeeService.getEmployeeById(id);
+        return Result.success(employee);
+    }
+    @ApiOperation("编辑员工")
+    @PutMapping()
+    public Result updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
+
 }

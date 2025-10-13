@@ -21,4 +21,9 @@ public interface EmployeeMapper {
     void insert(Employee employee);
 
     Page<Employee> queryByKeyword(String name);
+
+    void update(Employee employee);
+
+    @Select("select * from employee where id = #{id}")
+    Employee getById(Integer id);
 }
