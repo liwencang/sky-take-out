@@ -1,12 +1,14 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
-import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import javax.validation.constraints.DecimalMin;
+import java.util.List;
 
 @Mapper
 public interface DishMapper {
@@ -22,4 +24,9 @@ public interface DishMapper {
     void insertDish(Dish dish);
 
     Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+    void deleteBatch(List idList);
+
+    @Select("select status from dish where id = #{id}")
+    int getStatusById(Long id);
 }

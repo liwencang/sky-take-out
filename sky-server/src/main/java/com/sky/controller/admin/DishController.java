@@ -44,4 +44,10 @@ public class DishController {
         return Result.success(pageResult);
     }
 
+    @DeleteMapping
+    public Result delete(String ids) {
+        dishService.deleteBatch(ids);
+        return Result.success();
+    }
+
 }

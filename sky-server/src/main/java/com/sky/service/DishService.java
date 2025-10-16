@@ -9,4 +9,6 @@ public interface DishService {
     void saveWithFlavor(DishDTO dishDTO);
 
     PageResult getPage(DishPageQueryDTO dishPageQueryDTO);
+
+    void deleteBatch(String ids);
 }
