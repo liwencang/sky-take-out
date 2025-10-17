@@ -7,6 +7,27 @@
         insert into dish (name,category_id,price,image,description,status)
         values (#{name},#{categoryId},#{price},#{image},#{description},#{status})
     </insert>
+    <update id="update">
+        update dish
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="pageQuery" resultType="com.sky.vo.DishVO">
         select d.*,c.name as categroyName from dish d left join category c on d.category_id = c.id
@@ -21,6 +42,15 @@
                 status = #{status}
             </if>
         </where>
+    </select>
+    <select id="getDishWithFlavorByDishId" resultType="com.sky.vo.DishVO">
+        select * from dish d where id = #{id}
+    </select>
+    <select id="getDishById" resultType="com.sky.entity.Dish">
+        select d.*, c.name
+        from dish d
+                 left join category c on d.category_id = c.id
+        where d.id = #{id}
     </select>
     <delete id="deleteBatch" parameterType="List">
         delete from dish where
