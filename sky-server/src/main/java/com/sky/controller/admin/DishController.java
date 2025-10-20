@@ -13,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/dish")
-@Api(tags = "菜品类")
+@Api(tags = "菜品管理类")
 @Slf4j
 public class DishController {
     @Autowired
@@ -66,6 +68,22 @@ public class DishController {
     public Result<DishVO> getDishWithFlavorByDishId(@PathVariable Long id){
         DishVO dishVO = dishService.getDishWithFlavorByDishId(id);
         return Result.success(dishVO);
+    }
+
+    @ApiOperation("根据分类id查询套餐列表")
+    @GetMapping("/list")
+    public Result<List<Dish>> getDishListByCategoryId(Long categoryId){
+        List<Dish> dishes = dishService.getDishListByCategoryId(categoryId);
+        return Result.success(dishes);
+    }
+
+    @ApiOperation("启售、停售菜品")
+    @PostMapping("/status/{status}")
+    public Result dishEnableOrDisable(@RequestParam Long id, @PathVariable String status){
+        System.out.println(id);
+        System.out.println(status);
+        dishService.enableOrDisable(status);
+        return Result.success();
     }
 
     /**
