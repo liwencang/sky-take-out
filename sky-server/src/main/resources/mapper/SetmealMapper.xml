@@ -7,6 +7,7 @@
         insert into setmeal (category_id,name,price,status,description,image)
             values (#{categoryId},#{name},#{price},#{status},#{description},#{image})
     </insert>
+
     <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
         select s.*, c.name categoryName
         from setmeal s
@@ -24,4 +25,12 @@
         </where>
         order by s.create_time desc
     </select>
+
+    <delete id="deleteBatch" parameterType="Integer">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

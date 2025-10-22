@@ -2,6 +2,8 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
@@ -57,5 +59,18 @@ public class SetmealServiceImpl implements SetmealService {
         pageResult.setTotal(page.getTotal());
         pageResult.setRecords(page.getResult());
         return pageResult;
+    }
+
+    @Transactional
+    @Override
+    public void deleteBatch(List<Long> ids) {
+        for (Long id : ids) {
+            int status = setmealMapper.queryStatusById(id);
+            if(status == StatusConstant.ENABLE){
+                throw new RuntimeException(MessageConstant.SETMEAL_ON_SALE);
+            }
+        }
+        setmealMapper.deleteBatch(ids);
+        setmealDishMapper.deleteBySetmealIds(ids);
     }
 }

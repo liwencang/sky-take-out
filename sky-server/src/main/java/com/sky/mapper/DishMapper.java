@@ -8,9 +8,6 @@ import com.sky.enumeration.OperationType;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.validation.constraints.DecimalMin;
 import java.util.List;
 
 @Mapper
